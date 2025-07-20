@@ -6,13 +6,14 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
     react()],
-  server: {
-    proxy: {
-      '/api': {
-        target: 'https://vaultifyadmin.onrender.com',
-        changeOrigin: true,
-        secure: false,
-      },
-    },
-  },
+  // Remove or comment out proxy for production deployment
+  // server: {
+  //   proxy: {
+  //     '/api': {
+  //       target: 'https://vaultifyadmin.onrender.com',
+  //       changeOrigin: true,
+  //       secure: false,
+  //     },
+  //   },
+  // },
 })
