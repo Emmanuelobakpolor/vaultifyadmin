@@ -26,7 +26,7 @@ function Administration() {
   // Removed role-based access restriction to allow all roles to view the page
   // Fetch all paradise and range-view admins for all users
   const { data, isLoading, error, refetch } = useQuery("admin", () => {
-    return axios.get(backendUrl + `/api/admin/getParadiseAndRangeViewAdmins?currentRole=${user.adminRole}`, {
+    return axios.get(backendUrl + `/admin/getParadiseAndRangeViewAdmins?currentRole=${user.adminRole}`, {
       withCredentials: true,
     });
   });
