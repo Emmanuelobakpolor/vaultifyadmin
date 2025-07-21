@@ -25,8 +25,12 @@ SECRET_KEY = 'django-insecure-q6)(9p#496c_-@lsvj-bni-l#$^u0cfy$fy^o6%6-3l_ie1rd5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['vaultifyadmin.onrender.com']
-
+ALLOWED_HOSTS = [
+    "vaultify-43wm.onrender.com",       # your backend's Render domain
+    "vaultifybackend.onrender.com",         # optional - your custom domain if any
+    "localhost",                        # optional - for local testing
+    "127.0.0.1",                        # optional - for local testing
+]
 
 # Application definition
 
@@ -53,12 +57,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-
-CORS_ALLOWED_ORIGINS = [
-    'https://vaultifyadmin.onrender.com', 'https://vaultifybackend.onrender.com', '*'
-]
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    "https://vaultifyadmin.onrender.com",  # 👈 Your frontend URL
+]
+
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -84,12 +87,23 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+import dj_database_url
+import os
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'vaultifyadmindb',
+        'USER': 'vaultifyadmindb_user',
+        'PASSWORD': 'sZiDhg7pVWRcSrRJdGPijKqymHZGbLZT',
+        'HOST': 'dpg-d1vbld49c44c73dnsj3g-a.oregon-postgres.render.com',
+        'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
     }
 }
+
 
 
 # Password validation
