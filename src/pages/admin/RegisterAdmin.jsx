@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import vau from "../../assets/images/vau.png";
 import { Eye, EyeOff } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { signInSuccess } from "../../redux/User/userSlice.js";
 
 const RegisterAdmin = () => {
   useEffect(() => {
     console.log('RegisterAdmin component rendered');
   }, []);
 
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     adminName: '',
     adminEmail: '',
@@ -39,6 +42,9 @@ const RegisterAdmin = () => {
       const data = await response.json();
       if (response.ok) {
         setMessage(data.message || 'Admin registered successfully');
+        if (data.userData) {
+          dispatch(signInSuccess(data.userData));
+        }
         setFormData({
           adminName: '',
           adminEmail: '',
