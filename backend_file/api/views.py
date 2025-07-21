@@ -17,17 +17,18 @@ from rest_framework.permissions import AllowAny
 
 # Removed is_auth view as per user request
 
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
+
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_user_data(request):
-    if request.user and request.user.is_authenticated:
-        try:
-            admin = request.user
-            serializer = AdminSerializer(admin)
-            return Response({'success': True, 'userData': serializer.data}, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({'success': False, 'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        return Response({'success': False, 'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+    try:
+        admin = request.user
+        serializer = AdminSerializer(admin)
+        return Response({'success': True, 'userData': serializer.data}, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({'success': False, 'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
@@ -51,6 +52,8 @@ def register_admin(request):
     except Exception as e:
         return Response({'success': False, 'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+from rest_framework_simplejwt.tokens import RefreshToken
+
 @csrf_exempt
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -61,8 +64,14 @@ def login_admin(request):
     try:
         admin = Admin.objects.filter(adminEmail=adminEmail).first()
         if admin and adminPassword and check_password(adminPassword, admin.adminPassword):
+            refresh = RefreshToken.for_user(admin)
             serializer = AdminSerializer(admin)
-            return Response({'success': True, 'userData': serializer.data}, status=status.HTTP_200_OK)
+            return Response({
+                'success': True,
+                'userData': serializer.data,
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+            }, status=status.HTTP_200_OK)
         return Response({'success': False, 'error': 'Invalid email or password'}, status=status.HTTP_401_UNAUTHORIZED)
     except Exception as e:
         return Response({'success': False, 'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
