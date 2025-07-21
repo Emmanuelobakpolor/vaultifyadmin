@@ -12,14 +12,17 @@ const ShopContextProvider = (props) => {
 
     const getAuthState= async() =>{
         try {
-            const {data} = await axios.get(backendUrl +"/api/admin/isAuth")
+            const {data} = await axios.get(backendUrl +"/api/admin/getUserData")
             if(data.success){
                 setIsLoginIn(true)
-                getUserDate()
+                setUserDate(data.userData)
+            } else {
+                setIsLoginIn(false)
+                setUserDate(null)
             }
         } catch (error) {
-            
-            
+            setIsLoginIn(false)
+            setUserDate(null)
         }
 
     }
