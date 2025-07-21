@@ -4,6 +4,7 @@ import vau from "../../assets/images/vau.png";
 import { Eye, EyeOff } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { signInSuccess } from "../../redux/User/userSlice.js";
+import { useShopContext } from '../../context.jsx';
 
 const RegisterAdmin = () => {
   useEffect(() => {
@@ -11,6 +12,8 @@ const RegisterAdmin = () => {
   }, []);
 
   const dispatch = useDispatch();
+  const { backendUrl } = useShopContext();
+
   const [formData, setFormData] = useState({
     adminName: '',
     adminEmail: '',
@@ -32,7 +35,7 @@ const RegisterAdmin = () => {
   setMessage('');
   setError('');
   try {
-    const response = await fetch('/admin/registerAdmin', {
+    const response = await fetch(backendUrl + '/admin/registerAdmin/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
