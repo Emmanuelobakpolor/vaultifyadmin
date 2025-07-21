@@ -29,7 +29,8 @@ const RegisterAdmin = () => {
     setMessage('');
     setError('');
     try {
-      const response = await fetch('/api/admin/registerAdmin', {
+      const response = await fetch('/api/admin/registerAdmin/
+        ', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
