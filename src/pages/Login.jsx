@@ -32,10 +32,12 @@ const {loading , error} = useSelector((state) => state.user)
       // Trim inputs before sending
       const trimmedEmail = adminEmail.trim();
       const trimmedPassword = adminPassword.trim();
-     const {data, loading}= await axios.post(backendUrl+ '/api/admin/login/', {adminEmail: trimmedEmail, adminPassword: trimmedPassword} )
-if(loading){
-toast.success("Loading...")
-
+const { data } = await axios.post(backendUrl + '/admin/login/', {  // Remove /api
+  adminEmail: trimmedEmail,
+  adminPassword: trimmedPassword,
+});
+if (loading) {
+  toast.success("Loading...");
 }
      if (data.success){
       dispatch(signInSuccess(data.userData))

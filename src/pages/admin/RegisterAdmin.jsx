@@ -27,39 +27,40 @@ const RegisterAdmin = () => {
     setFormData({...formData, [e.target.name]: e.target.value});
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMessage('');
-    setError('');
-    try {
-      const response = await fetch('/api/admin/registerAdmin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        setMessage(data.message || 'Admin registered successfully');
-        if (data.userData) {
-          dispatch(signInSuccess(data.userData));
-        }
-        setFormData({
-          adminName: '',
-          adminEmail: '',
-          adminRole: '',
-          adminPassword: '',
-        });
-        // Redirect to login page after successful registration
-        navigate('/login');
-      } else {
-        setError(data.error || 'Failed to register admin');
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setMessage('');
+  setError('');
+  try {
+    const response = await fetch('/admin/registerAdmin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+    const data = await response.json();
+    console.log('Response:', data); // Debug log
+    if (response.ok) {
+      setMessage(data.message || 'Admin registered successfully');
+      if (data.userData) {
+        dispatch(signInSuccess(data.userData));
       }
-    } catch (err) {
-      setError('Error: ' + err.message);
+      setFormData({
+        adminName: '',
+        adminEmail: '',
+        adminRole: '',
+        adminPassword: '',
+      });
+      navigate('/login');
+    } else {
+      setError(data.error || 'Failed to register admin');
     }
-  };
+  } catch (err) {
+    setError('Error: ' + err.message);
+    console.error('Error:', err); // Debug error
+  }
+};
 
   return (
     <div className="mt-10 justify-self-center mx-auto max-w-md p-8 bg-white rounded-lg shadow-lg">
