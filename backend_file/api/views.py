@@ -44,8 +44,9 @@ def register_admin(request):
         if serializer.is_valid():
             # Hash the password before saving
             serializer.validated_data['adminPassword'] = make_password(serializer.validated_data['adminPassword'])
-            serializer.save()
-            return Response({'message': 'Admin registered successfully'}, status=status.HTTP_201_CREATED)
+            admin = serializer.save()
+            response_serializer = AdminSerializer(admin)
+            return Response({'success': True, 'message': 'Admin registered successfully', 'userData': response_serializer.data}, status=status.HTTP_201_CREATED)
         return Response({'success': False, 'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'success': False, 'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
