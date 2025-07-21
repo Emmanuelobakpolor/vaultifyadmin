@@ -35,23 +35,14 @@ from rest_framework.permissions import AllowAny
 
 from django.views.decorators.csrf import csrf_exempt
 
-@csrf_exempt
 @api_view(['POST'])
-@permission_classes([AllowAny])
 def register_admin(request):
-    data = request.data
-    try:
-        serializer = AdminSerializer(data=data)
+    if request.method == 'POST':
+        serializer = AdminSerializer(data=request.data)
         if serializer.is_valid():
-            # Hash the password before saving
-            serializer.validated_data['adminPassword'] = make_password(serializer.validated_data['adminPassword'])
             admin = serializer.save()
-            response_serializer = AdminSerializer(admin)
-            return Response({'success': True, 'message': 'Admin registered successfully', 'userData': response_serializer.data}, status=status.HTTP_201_CREATED)
-        return Response({'success': False, 'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-    except Exception as e:
-        return Response({'success': False, 'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
+            return Response(AdminSerializer(admin).data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 from rest_framework_simplejwt.tokens import RefreshToken
 
 @csrf_exempt
