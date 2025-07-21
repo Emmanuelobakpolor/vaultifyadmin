@@ -32,7 +32,7 @@ const {loading , error} = useSelector((state) => state.user)
       // Trim inputs before sending
       const trimmedEmail = adminEmail.trim();
       const trimmedPassword = adminPassword.trim();
-const { data } = await axios.post(backendUrl + '/admin/login/', {  // Remove /api
+const { data } = await axios.post(backendUrl + '/admin/login', {  // Remove /api
   adminEmail: trimmedEmail,
   adminPassword: trimmedPassword,
 });
