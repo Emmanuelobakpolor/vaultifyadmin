@@ -17,6 +17,18 @@ from rest_framework.permissions import AllowAny
 
 # Removed is_auth view as per user request
 
+@api_view(['GET'])
+def get_user_data(request):
+    if request.user and request.user.is_authenticated:
+        try:
+            admin = request.user
+            serializer = AdminSerializer(admin)
+            return Response({'success': True, 'userData': serializer.data}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'success': False, 'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response({'success': False, 'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+
 @api_view(['POST'])
 def register_admin(request):
     data = request.data
