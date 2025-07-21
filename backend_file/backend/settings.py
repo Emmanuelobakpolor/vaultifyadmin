@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-q6)(9p#496c_-@lsvj-bni-l#$^u0cfy$fy^o6%6-3l_ie1rd5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['vaultifyadmin.onrender.com']
+ALLOWED_HOSTS = ['vaultifyadmin.onrender.com', '*']
 
 
 # Application definition
