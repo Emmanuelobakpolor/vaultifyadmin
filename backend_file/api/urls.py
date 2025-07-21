@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import register_admin, get_all_admin, login_admin, ServiceListView, ProviderListCreateView, ServiceWithProvidersView, ProviderRetrieveUpdateDestroyView, get_range_view_admins, get_paradise_admins, delete_admin, get_paradise_and_range_view_admins, get_update_admin_by_id, ServiceProvidersByEstateView, AlertListCreateView
+from .views import get_user_data, register_admin, get_all_admin, login_admin, ServiceListView, ProviderListCreateView, ServiceWithProvidersView, ProviderRetrieveUpdateDestroyView, get_range_view_admins, get_paradise_admins, delete_admin, get_paradise_and_range_view_admins, get_update_admin_by_id, ServiceProvidersByEstateView, AlertListCreateView
 
 urlpatterns = [
     path('admin/registerAdmin', register_admin, name='register_admin'),
@@ -10,6 +10,8 @@ urlpatterns = [
     path('admin/getParadiseAndRangeViewAdmins', get_paradise_and_range_view_admins, name='get_paradise_and_range_view_admins'),
     path('admin/deleteAdmin/<int:id>', delete_admin, name='delete_admin'),
     path('admin/getAdminById/<int:id>', get_update_admin_by_id, name='get_update_admin_by_id'),
+    path('admin/getUserData', get_user_data, name='get_user_data'),  # ✅ Add this line
+
     # Removed is_auth endpoint as per user request
     path('services/', ServiceListView.as_view(), name='service-list'),
     path('services-with-providers/', ServiceWithProvidersView.as_view(), name='services-with-providers'),
