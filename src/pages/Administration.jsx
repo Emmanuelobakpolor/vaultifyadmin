@@ -26,7 +26,7 @@ function Administration() {
   // Removed role-based access restriction to allow all roles to view the page
   // Fetch all paradise and range-view admins for all users
   const { data, isLoading, error, refetch } = useQuery("admin", () => {
-    return axios.get(backendUrl + `/admin/getParadiseAndRangeViewAdmins?currentRole=${user.adminRole}`, {
+    return axios.get(backendUrl + `/api/admin/getParadiseAndRangeViewAdmins?currentRole=${user.adminRole}`, {
       withCredentials: true,
     });
   });
@@ -66,7 +66,7 @@ function Administration() {
 
     try {
       setIsDeleting(true);
-      await axios.delete(`${backendUrl}/admin/deleteAdmin/${id}`);
+      await axios.delete(`${backendUrl}/api/admin/deleteAdmin/${id}`);
       toast.success("Admin Deleted Successfully", {
         theme: "colored",
         style: { backgroundColor: "#22c55e", color: "#fff", fontWeight: "bold" }
@@ -98,7 +98,7 @@ function Administration() {
       setIsDeleting(true);
       await Promise.all(
         selectedAdmins.map((id) =>
-          axios.delete(`${backendUrl}/admin/deleteAdmin/${id}`)
+          axios.delete(`${backendUrl}/api/admin/deleteAdmin/${id}`)
         )
       );
       toast.success("Selected Admins Deleted", {
