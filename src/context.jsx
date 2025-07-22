@@ -41,7 +41,7 @@ const ShopContextProvider = (props) => {
         }
     }
 
- const backendUrl = "https://vaultifybackend.onrender.com/api"
+ const backendUrl = "https://vaultifybackend.onrender.com"
  const MobileApi = "http://vaultify-43wm.onrender.com"
     const Value = { 
         backendUrl,
