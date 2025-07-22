@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useShopContext } from '../../context.jsx';
 
 const EditAdmin = () => {
+  const { backendUrl } = useShopContext();
   const { id } = useParams();
   const navigate = useNavigate();
   const [adminData, setAdminData] = useState({
@@ -17,7 +19,7 @@ const EditAdmin = () => {
   useEffect(() => {
     const fetchAdmin = async () => {
       try {
-        const response = await axios.get(`/api/admin/getAdminById/${id}`, { withCredentials: true });
+        const response = await axios.get(`${backendUrl}/admin/getAdminById/${id}`, { withCredentials: true });
         setAdminData({
           adminName: response.data.adminName || '',
           adminEmail: response.data.adminEmail || '',
@@ -30,7 +32,7 @@ const EditAdmin = () => {
       }
     };
     fetchAdmin();
-  }, [id]);
+  }, [id, backendUrl]);
 
   const handleChange = (e) => {
     setAdminData({ ...adminData, [e.target.name]: e.target.value });
@@ -40,7 +42,7 @@ const EditAdmin = () => {
     e.preventDefault();
     setSaving(true);
     try {
-      await axios.put(`/api/admin/getAdminById/${id}`, adminData, { withCredentials: true });
+      await axios.put(`${backendUrl}/admin/getAdminById/${id}`, adminData, { withCredentials: true });
       toast.success('Admin updated successfully');
       navigate('/Administration');
     } catch (error) {
