@@ -193,13 +193,6 @@ function ManageResidents() {
           </h1>
 
           <div className="flex items-center justify-center">
-            <button
-              type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 disabled:bg-blue-300"
-              disabled={loading}
-            >
-              {loading ? 'Submitting...' : 'Add Resident'}
-            </button>
           </div>
 
           {error && <p className="text-red-600 text-center mt-4">{error}</p>}

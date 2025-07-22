@@ -81,12 +81,12 @@ function SecurityPersonnel() {
             className="rounded-lg placeholder-sky-900 placeholder:p-5 focus:outline-none focus:ring-2 focus:ring-sky-800"
           />
         </div>
-        <Link
+        {/* <Link
           to={"/AddManageSecurityPersonnel"}
           className="mr-8 p-2 rounded-xl mt-1 bg-sky-950 text-white hover:bg-white hover:text-sky-900"
         >
           <button>+ Add Security Personnel</button>
-        </Link>
+        </Link> */}
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-700">
