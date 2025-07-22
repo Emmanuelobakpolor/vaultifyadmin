@@ -57,7 +57,7 @@ function ServiceBooking() {
       alert("Admin not logged in");
       return;
     }
-    fetch(`${backendUrl}/api/providers/`, {
+    fetch(`${backendUrl}/api/providers`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
