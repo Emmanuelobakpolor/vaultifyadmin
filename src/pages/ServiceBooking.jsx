@@ -81,6 +81,7 @@ function ServiceBooking() {
       .then((addedProvider) => {
         setProviders((prev) => [...prev, addedProvider]);
         setShowAddForm(false);
+        alert("Provider successfully added");
       })
       .catch((err) => {
         console.error(err);
@@ -120,6 +121,7 @@ function ServiceBooking() {
         );
         setShowAddForm(false);
         setEditingProvider(null);
+        alert("Provider successfully updated");
       })
       .catch((err) => {
         console.error(err);
@@ -143,6 +145,7 @@ function ServiceBooking() {
           throw new Error("Failed to delete provider");
         }
         setProviders((prev) => prev.filter((p) => p.id !== provider.id));
+        alert("Provider successfully deleted");
       })
       .catch((err) => {
         console.error(err);
