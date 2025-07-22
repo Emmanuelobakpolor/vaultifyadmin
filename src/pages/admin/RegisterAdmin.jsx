@@ -5,6 +5,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { signInSuccess } from "../../redux/User/userSlice.js";
 import { useShopContext } from '../../context.jsx';
+import Preloader from "../../components/Preloader.jsx";
 
 const RegisterAdmin = () => {
   useEffect(() => {
@@ -23,6 +24,7 @@ const RegisterAdmin = () => {
 
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -30,40 +32,43 @@ const RegisterAdmin = () => {
     setFormData({...formData, [e.target.name]: e.target.value});
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
-  setMessage('');
-  setError('');
-  try {
-    const response = await fetch(backendUrl + '/api/admin/registerAdmin', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
-    const data = await response.json();
-    console.log('Response:', data); // Debug log
-    if (response.ok) {
-      setMessage(data.message || 'Admin registered successfully');
-      if (data.userData) {
-        dispatch(signInSuccess(data.userData));
-      }
-      setFormData({
-        adminName: '',
-        adminEmail: '',
-        adminRole: '',
-        adminPassword: '',
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage('');
+    setError('');
+    setLoading(true);
+    try {
+      const response = await fetch(backendUrl + '/api/admin/registerAdmin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
-      navigate('/login');
-    } else {
-      setError(data.error || 'Failed to register admin');
+      const data = await response.json();
+      console.log('Response:', data); // Debug log
+      if (response.ok) {
+        setMessage(data.message || 'Admin registered successfully');
+        if (data.userData) {
+          dispatch(signInSuccess(data.userData));
+        }
+        setFormData({
+          adminName: '',
+          adminEmail: '',
+          adminRole: '',
+          adminPassword: '',
+        });
+        navigate('/login');
+      } else {
+        setError(data.error || 'Failed to register admin');
+      }
+    } catch (err) {
+      setError('Error: ' + err.message);
+      console.error('Error:', err); // Debug error
+    } finally {
+      setLoading(false);
     }
-  } catch (err) {
-    setError('Error: ' + err.message);
-    console.error('Error:', err); // Debug error
-  }
-};
+  };
 
   return (
     <div className="mt-10 justify-self-center mx-auto max-w-md p-8 bg-white rounded-lg shadow-lg">
@@ -74,6 +79,7 @@ const RegisterAdmin = () => {
         <img src={vau} alt="Vaultify Logo" className="mx-auto mb-5" />
       </div>
       <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Register Admin</h2>
+      {loading && <div className="flex justify-center mb-4"><Preloader /></div>}
       {message && <p style={{color: 'green'}}>{message}</p>}
       {error && <p style={{color: 'red'}}>{error}</p>}
       <form onSubmit={handleSubmit}>
@@ -87,6 +93,7 @@ const RegisterAdmin = () => {
             onChange={handleChange}
             required
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            disabled={loading}
           />
         </div>
         <div className="mb-4">
@@ -99,6 +106,7 @@ const RegisterAdmin = () => {
             onChange={handleChange}
             required
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            disabled={loading}
           />
         </div>
         <div className="mb-4">
@@ -110,6 +118,7 @@ const RegisterAdmin = () => {
             onChange={handleChange}
             required
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            disabled={loading}
           >
             <option value="">Select a role</option>
             <option value="Super-admin">Super-admin</option>
@@ -127,11 +136,13 @@ const RegisterAdmin = () => {
             onChange={handleChange}
             required
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
+            disabled={loading}
           />
           <button
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
             className="absolute right-3 top-9 text-gray-600 focus:outline-none"
+            disabled={loading}
           >
             {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           </button>
@@ -139,6 +150,7 @@ const RegisterAdmin = () => {
         <button
           type="submit"
           className="w-full bg-sky-900 text-white py-2 rounded-md hover:bg-sky-700 transition duration-300 mb-4"
+          disabled={loading}
         >
           Register Admin
         </button>

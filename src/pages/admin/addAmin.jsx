@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import axios  from "axios"
-import { useState } from "react";
 import { useShopContext } from '../../context.jsx';
 import { useNavigate } from "react-router-dom";
 import {toast} from "react-toastify"
+import Preloader from "../../components/Preloader.jsx";
+
 function AddAmin() {
   const navigate = useNavigate()
   const { backendUrl ,setIsLoginIn} = useShopContext()
@@ -11,10 +12,12 @@ function AddAmin() {
   const [adminRole,setRole] =useState("");
   const [adminEmail,setEmail] =useState("");
   const [adminPassword,setPassword] =useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e)=>{
+    e.preventDefault()
+    setLoading(true)
     try {
-      e.preventDefault()
       axios.defaults.withCredentials=true
       const {data}= await axios.post(backendUrl+ '/api/admin/registerAdmin', {adminEmail,adminPassword,adminName,adminRole} )
       if (data.success){
@@ -28,10 +31,13 @@ function AddAmin() {
     } catch (error) {
       toast.error(error.message)
       console.log(error.message)
+    } finally {
+      setLoading(false)
     }
   }
   return (
     <div className="mt-25 justify-self-center mx-auto">
+      {loading && <div className="flex justify-center mb-4"><Preloader /></div>}
       <form
         onSubmit={handleSubmit}
         className="max-w-md mx-auto mt-10 p-8 bg-white rounded-lg shadow-lg"
@@ -50,6 +56,7 @@ function AddAmin() {
             onChange={(e) => setName(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
+            disabled={loading}
           />
         </div>
 
@@ -65,6 +72,7 @@ function AddAmin() {
             onChange={(e) => setEmail(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
+            disabled={loading}
           />
         </div>
 
@@ -79,6 +87,7 @@ function AddAmin() {
             onChange={(e) => setRole(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
+            disabled={loading}
           >
             admin
             <option value="Super-admin">Superadmin</option>
@@ -101,12 +110,14 @@ function AddAmin() {
             onChange={(e) => setPassword(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-800"
             required
+            disabled={loading}
           />
         </div>
 
         <button
           type="submit"
           className="w-full bg-sky-950 text-white py-2 rounded-md hover:bg-sky-700 transition duration-300"
+          disabled={loading}
         >
           Submit
         </button>
