@@ -3,9 +3,7 @@ import {motion} from "framer-motion"
 function ManageSecurityP() {
   return (
     <div className='mt-25 ml-5 pr-10 mb-20 '>
-<h1 className='ml-5 mb-5 font-bold' >
-  Add New Security Personnel
-</h1>
+
 <motion.div className='bg-white pb-20 p-5  justify-center self-center rounded-2xl shadow-xl '
     initial={{ opacity:0,y:20}}
   
