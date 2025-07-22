@@ -16,7 +16,7 @@ function AddAmin() {
     try {
       e.preventDefault()
       axios.defaults.withCredentials=true
-      const {data}= await axios.post(backendUrl+ '/admin/registerAdmin', {adminEmail,adminPassword,adminName,adminRole} )
+      const {data}= await axios.post(backendUrl+ '/api/admin/registerAdmin', {adminEmail,adminPassword,adminName,adminRole} )
       if (data.success){
         setIsLoginIn(true)
         toast.success("Admin Added Successfully")

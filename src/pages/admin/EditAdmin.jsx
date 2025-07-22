@@ -19,7 +19,7 @@ const EditAdmin = () => {
   useEffect(() => {
     const fetchAdmin = async () => {
       try {
-        const response = await axios.get(`${backendUrl}/admin/getAdminById/${id}`, { withCredentials: true });
+        const response = await axios.get(`${backendUrl}/api/admin/getAdminById/${id}`, { withCredentials: true });
         setAdminData({
           adminName: response.data.adminName || '',
           adminEmail: response.data.adminEmail || '',
@@ -42,7 +42,7 @@ const EditAdmin = () => {
     e.preventDefault();
     setSaving(true);
     try {
-      await axios.put(`${backendUrl}/admin/getAdminById/${id}`, adminData, { withCredentials: true });
+      await axios.put(`${backendUrl}/api/admin/getAdminById/${id}`, adminData, { withCredentials: true });
       toast.success('Admin updated successfully');
       navigate('/Administration');
     } catch (error) {
