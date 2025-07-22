@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import plier from "../assets/images/plier.png";
 import ProvidersTable from "../components/ProvidersTable";
 import AddProviderForm from "../components/AddProviderForm";
+import { useShopContext } from "../context";
 
 const SERVICES = [
   "Cleaning Service",
@@ -25,9 +26,11 @@ function ServiceBooking() {
   const user = useSelector((state) => state.user.user);
   const adminId = user ? user.id : null;
 
+  const { backendUrl } = useShopContext();
+
   useEffect(() => {
     if (selectedService && adminId) {
-      fetch(`/api/providers/?service_name=${encodeURIComponent(selectedService)}&admin_id=${adminId}`)
+      fetch(`${backendUrl}/api/providers/?service_name=${encodeURIComponent(selectedService)}&admin_id=${adminId}`)
         .then((res) => res.json())
         .then((data) => {
           setProviders(data);
@@ -36,7 +39,7 @@ function ServiceBooking() {
     } else {
       setProviders([]);
     }
-  }, [selectedService, adminId]);
+  }, [selectedService, adminId, backendUrl]);
 
   const handleServiceClick = (service) => {
     setSelectedService(service);
@@ -54,7 +57,7 @@ function ServiceBooking() {
       alert("Admin not logged in");
       return;
     }
-    fetch("/api/providers/", {
+    fetch(`${backendUrl}/api/providers/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -90,7 +93,7 @@ function ServiceBooking() {
       alert("Admin not logged in or no provider selected for update");
       return;
     }
-    fetch(`/api/providers/${editingProvider.id}/`, {
+    fetch(`${backendUrl}/api/providers/${editingProvider.id}/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -132,7 +135,7 @@ function ServiceBooking() {
     if (!window.confirm(`Are you sure you want to delete provider ${provider.provider_name}?`)) {
       return;
     }
-    fetch(`/api/providers/${provider.id}/`, {
+    fetch(`${backendUrl}/api/providers/${provider.id}/`, {
       method: "DELETE",
     })
       .then((res) => {
@@ -198,3 +201,4 @@ function ServiceBooking() {
 }
 
 export default ServiceBooking;
+
