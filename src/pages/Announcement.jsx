@@ -34,7 +34,7 @@ function Announcement() {
   const [loading, setLoading] = useState(false)
 
   // Local backend API base URL and token (adjust token usage as needed)
-  const baseUrl = '/api/'  // Assuming backend is proxied or same origin
+  const baseUrl = 'https://vaultifybackend.onrender.com/api/'  // Assuming backend is proxied or same origin
   // Remove token or adjust if your backend requires authentication
   // const token = 'your_local_backend_token_if_any'
 
