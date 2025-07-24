@@ -23,7 +23,7 @@ function Announcement() {
   }
 
   // Role options for visibility
-  const roleOptions = ['residence', 'security']
+  const roleOptions = ['residents', 'security']
 
   const [title, setTitle] = useState('')
   const [category, setCategory] = useState('')
